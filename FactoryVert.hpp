@@ -8,7 +8,9 @@
 		CCompexVector* Create() {
       return new CCompexVectorVert();
     }
-
+	    CCompexVector* Create(unsigned int l, const string& line) {
+	    	return new CCompexVectorVert(l,line);
+	    }
     FactoryVert() = default;
     ~FactoryVert() = default;
   };

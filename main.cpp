@@ -3,28 +3,42 @@
 #include"complexnumber.h"
 #include"complexvector1.hpp"
 #include"complexvector0.hpp"
+#include"Factory.hpp"
+#include"FactoryHori.hpp"
+#include"FactoryVert.hpp"
 int main() {
-	string check = ""; //для того чтобы консолька не закрывалась
-	Complex a (1,1);
-	Complex b = a + a;
-	Complex c = a - a;
-	Complex d = b * c; // демонстрация работы класса комплексного числа
-	CCompexVectorVert data1 (4,"data.txt");
-	CCompexVectorHori data2 (4,"data.txt");
-	data1.pushback(b);
-	data2.pushback(c);
-	data1.pushback(c);
-	data2.pushback(d);
-	CCompexVectorVert data3;
-	CCompexVectorHori data4;
-	data3=data1+data2; // Здесь происходит демонстрация работы фабрики.
-	data4=data1-data2; // Мы складываем векторы дочерних классов без конвертации
-	data3.output("data3+.txt");
-	data4.output("data4-.txt"); // демонстрация работы всего у класса вектора
-	if (data1.output("vertres.txt") && data2.output("horires.txt")) {
-		cout << "CHECK vertres.txt & horires.txt" << endl;
+	vector<CCompexVector*> res = {};
+	vector<string> paths;
+	int count = 0;
+	string check = "", path="data.txt";
+	ifstream input(path);
+	if(input){
+		string line;
+		while (getline(input, line)) {
+
+			string type = "", path = "";
+			int l = 0;
+			stringstream ss(line);
+			ss >> type >> l >> path;
+			paths.push_back(path);
+			if (type=="vert"){
+				FactoryVert fucc;
+				res.push_back(fucc.Create(l,line));
+				count++;
+			} else if (type=="hori") {
+				FactoryHori fucc;
+				res.push_back(fucc.Create(l,line));
+				count++;
+			}
+		}
 	}
-	cin >> check;
+	for (int i =0; i<count; i++){
+		if(res[i]->output(paths[i])) continue;
+		check = "error";
+	}
+	if (check=="") {cout<<"check all the output files"<<endl<<"Press any key to continue"<<endl;}
+	else {cout<<check<<endl<<"Press any key to continue"<<endl;}
+	cin >> check; //для того чтобы консолька не закрывалась
 	return 0;
 }
 
