@@ -10,6 +10,7 @@
   public:
     virtual CCompexVector* Create() = 0;
     virtual CCompexVector* Create(unsigned int l, const string& line) = 0;
+	virtual CCompexVector* Create(const CCompexVector& copy) = 0;
 
     Factory() = default;
     virtual ~Factory() = default;

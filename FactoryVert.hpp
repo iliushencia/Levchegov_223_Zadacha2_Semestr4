@@ -11,6 +11,9 @@
 	    CCompexVector* Create(unsigned int l, const string& line) {
 	    	return new CCompexVectorVert(l,line);
 	    }
+		CCompexVector* Create(const CCompexVector& copy) {
+			return new CCompexVectorVert(copy);
+		}
     FactoryVert() = default;
     ~FactoryVert() = default;
   };

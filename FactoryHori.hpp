@@ -15,6 +15,9 @@
     CCompexVector* Create(unsigned int l, const string& line) {
     	return new CCompexVectorHori(l,line);
     }
+	CCompexVector* Create(const CCompexVector& copy) {
+		return new CCompexVectorHori(copy);
+	}
     FactoryHori() = default;
     ~FactoryHori() = default;
   };

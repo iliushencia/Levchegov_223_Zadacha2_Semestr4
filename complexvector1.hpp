@@ -6,7 +6,7 @@ class CCompexVectorHori :public CCompexVector{
 	public:
 	CCompexVectorHori(int l, const string& path) : CCompexVector(l, path) {}
 	CCompexVectorHori() : CCompexVector() {}
-	CCompexVectorHori(int l, const vector<Complex>& d) : CCompexVector(l, d) {}
+	CCompexVectorHori(const CCompexVector& copy) : CCompexVector(copy) {}
 	virtual bool output(const string& path) ;
 	using CCompexVector::operator = ;
 };

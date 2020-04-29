@@ -1,40 +1,52 @@
 #include "complexvector.hpp"
+
 	CCompexVector::CCompexVector(int l, const string& line) {
 			len=0;
+			data = new Complex[l];
 			int re=0, im=0;
 			char sign = ' ';
 			stringstream ss(line);
 			string num = "";
 			ss>>num>>num>>num;
-				for (int i=0; i<l; i++) {
-				ss>>num;
-				stringstream nn(num);
-				nn>>re>>sign>>im;
-				if(sign=='-') im=-im;
-				Complex num (re,im);
-				data.push_back(num);
-				len++;
-				}
+			for (int i=0; i<l; i++) {
+			ss>>num;
+			stringstream nn(num);
+			nn>>re>>sign>>im;
+			if(sign=='-') im=-im;
+			Complex num (re,im);
+			data[len]=num;
+			len++;
+			}
 	}
 
 	CCompexVector::CCompexVector() {
 		len=0;
-		data = {};
+		data = new Complex;
 	}
 
 	CCompexVector::~CCompexVector() {
-		data.clear();
+		delete[] data;
 	}
 
+	void CCompexVector::push_back(const Complex& num) {
+		Complex* old = data;
+		data = new Complex [len+1];
+		for (int i = 0; i<len; i++){
+			data[i]=old[i];
+		}
+		data[len]=num;
+		len++;
+		delete[] old;
+	}
 	CCompexVector& CCompexVector::operator = (const CCompexVector& a) {
 		this->len=a.len;
 		this->data=a.data;
-	 return *this;
+		return *this;
 	}
 	int CCompexVector::size() const {
 		return len;
 	}
-	vector<Complex> CCompexVector::dat() const {
+	Complex* CCompexVector::dat() const {
 		return data;
 	}
 
@@ -51,12 +63,15 @@ Complex operator * (const CCompexVector& a, const CCompexVector& b) {
 	}
 	return res;
 }
-CCompexVector:: CCompexVector(int l, const vector<Complex>& d) {
-	len = l;
-	data = d;
+
+CCompexVector::CCompexVector(const CCompexVector& copy) {
+	data = new Complex [copy.size()];
+	len = copy.size();
+}
+void CCompexVector:: add(int i, const CCompexVector& a) {
+	data[i] = data[i] + a.dat()[i];
 }
 
-void CCompexVector:: pushback(Complex num) {
-	data.push_back(num);
-	len++;
+void CCompexVector::sub(int i, const CCompexVector& a) {
+	data[i] = data[i] - a.dat()[i];
 }
